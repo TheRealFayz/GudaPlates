@@ -95,6 +95,61 @@ end
 -- Filter Application
 -- =============================================================================
 
+-- =============================================================================
+-- Friendly / Neutral Hiding
+-- =============================================================================
+
+-- Returns true if this plate should be hidden based on unit reaction.
+--   Friendly: always hidden when hideFriendlyNameplates is on. Names and
+--             guilds come from the client's floating unit names instead.
+--   Neutral:  hidden when hideNeutralNameplates is on, unless it's your
+--             target or it's in combat (so a pulled mob never vanishes).
+--   Hostile:  never hidden here.
+function GudaPlates_Filter.ShouldHideByReaction(frame, nameplate, original, Settings)
+    if not Settings then return false end
+    if not Settings.hideFriendlyNameplates and not Settings.hideNeutralNameplates then
+        return false
+    end
+    if not original or not original.healthbar then return false end
+
+    local r, g, b = original.healthbar:GetStatusBarColor()
+    local isHostile = r > 0.9 and g < 0.2 and b < 0.2
+    if isHostile then return false end
+    local isNeutral = r > 0.9 and g > 0.9 and b < 0.2
+
+    if not isNeutral then
+        -- Friendly
+        return Settings.hideFriendlyNameplates and true or false
+    end
+
+    -- Neutral
+    if not Settings.hideNeutralNameplates then return false end
+
+    -- SuperWoW: exact per-unit checks
+    local unitstr = nil
+    if GudaPlates and GudaPlates.superwow_active and frame and frame.GetName then
+        unitstr = frame:GetName(1)
+        if unitstr == "" then unitstr = nil end
+    end
+    if unitstr then
+        if UnitIsUnit(unitstr, "target") then return false end
+        if UnitAffectingCombat and UnitAffectingCombat(unitstr) then return false end
+        return true
+    end
+
+    -- Fallback (no SuperWoW): name match on target, aggro glow for combat
+    if UnitExists("target") and original.name and original.name.GetText then
+        local plateName = original.name:GetText()
+        if plateName and plateName == UnitName("target") and frame:GetAlpha() > 0.9 then
+            return false
+        end
+    end
+    if original.glow and original.glow.IsShown and original.glow:IsShown() then
+        return false
+    end
+    return true
+end
+
 -- Check if nameplate should be COMPLETELY SKIPPED (no processing, no data updates)
 -- Returns: true if should skip, false otherwise
 --

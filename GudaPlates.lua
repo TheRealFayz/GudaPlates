@@ -63,6 +63,7 @@ if not GudaPlates.Settings then
         useLevelDiffColors = true,
         optionsBgAlpha = 0.9, hideOptionsBorder = false,
         showCritterNameplates = false,
+        hideFriendlyNameplates = true, hideNeutralNameplates = true,
     }
 end
 if not GudaPlates.Critters then GudaPlates.Critters = {} end
@@ -960,6 +961,14 @@ local function NamePlate_OnShow()
         end
     end
 
+    -- Friendly/neutral filter: don't flash a hidden plate for a frame on show
+    if GudaPlates_Filter and GudaPlates_Filter.ShouldHideByReaction then
+        if GudaPlates_Filter.ShouldHideByReaction(frame, nameplate, original, GudaPlates.Settings) then
+            nameplate:Hide()
+            return
+        end
+    end
+
     -- Show our custom nameplate (but respect showAfter delay for newly created plates)
     if not nameplate.showAfter and not nameplate:IsShown() then
         nameplate:Show()
@@ -1415,6 +1424,23 @@ local function UpdateNamePlate(frame)
         if GudaPlates_Filter.ShouldSkipNameplate(frame, nameplate, original, Settings) then
             nameplate:Hide()
             return  -- Skip all processing for critters
+        end
+    end
+
+    -- Friendly/neutral hiding: hide our overlay and make the plate unclickable.
+    -- overlapApplied is pinned so the OnUpdate loop doesn't re-enable mouse
+    -- on a hidden plate; it's cleared when the plate becomes visible again.
+    if GudaPlates_Filter and GudaPlates_Filter.ShouldHideByReaction then
+        if GudaPlates_Filter.ShouldHideByReaction(frame, nameplate, original, Settings) then
+            nameplate:Hide()
+            frame:EnableMouse(false)
+            nameplate:EnableMouse(false)
+            nameplate.overlapApplied = true
+            nameplate.reactionHidden = true
+            return
+        elseif nameplate.reactionHidden then
+            nameplate.reactionHidden = nil
+            nameplate.overlapApplied = nil  -- restore mouse/size on next pass
         end
     end
 

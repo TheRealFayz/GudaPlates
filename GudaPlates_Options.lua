@@ -471,8 +471,49 @@ showCrittersCheckbox:SetScript("OnLeave", function()
     GameTooltip:Hide()
 end)
 
+-- Row 3: Reaction filters
+local function RefreshAllPlates()
+    for plate, _ in pairs(registry) do
+        UpdateNamePlate(plate)
+    end
+end
+
+local hideFriendlyCheckbox = CreateFrame("CheckButton", "GudaPlatesHideFriendlyCheckbox", generalTab, "UICheckButtonTemplate")
+hideFriendlyCheckbox:SetPoint("TOPLEFT", onlyMyDebuffsCheckbox, "BOTTOMLEFT", 0, -10)
+local hideFriendlyLabel = getglobal(hideFriendlyCheckbox:GetName().."Text")
+hideFriendlyLabel:SetText(L["Hide Friendly"])
+hideFriendlyLabel:SetFont("Fonts\\FRIZQT__.TTF", 11)
+hideFriendlyCheckbox:SetScript("OnClick", function()
+    Settings.hideFriendlyNameplates = this:GetChecked() == 1
+    SaveSettings()
+    RefreshAllPlates()
+end)
+hideFriendlyCheckbox:SetScript("OnEnter", function()
+    GameTooltip:SetOwner(this, "ANCHOR_RIGHT")
+    GameTooltip:SetText(L["Hide friendly nameplates. Turn on player/NPC names in Interface Options to keep names and guilds."], 1, 1, 1, 1, 1)
+    GameTooltip:Show()
+end)
+hideFriendlyCheckbox:SetScript("OnLeave", function() GameTooltip:Hide() end)
+
+local hideNeutralCheckbox = CreateFrame("CheckButton", "GudaPlatesHideNeutralCheckbox", generalTab, "UICheckButtonTemplate")
+hideNeutralCheckbox:SetPoint("TOPLEFT", hideFriendlyCheckbox, "TOPLEFT", 150, 0)
+local hideNeutralLabel = getglobal(hideNeutralCheckbox:GetName().."Text")
+hideNeutralLabel:SetText(L["Hide Neutral"])
+hideNeutralLabel:SetFont("Fonts\\FRIZQT__.TTF", 11)
+hideNeutralCheckbox:SetScript("OnClick", function()
+    Settings.hideNeutralNameplates = this:GetChecked() == 1
+    SaveSettings()
+    RefreshAllPlates()
+end)
+hideNeutralCheckbox:SetScript("OnEnter", function()
+    GameTooltip:SetOwner(this, "ANCHOR_RIGHT")
+    GameTooltip:SetText(L["Hide neutral nameplates unless targeted or in combat."], 1, 1, 1, 1, 1)
+    GameTooltip:Show()
+end)
+hideNeutralCheckbox:SetScript("OnLeave", function() GameTooltip:Hide() end)
+
 local debuffSizeSlider = CreateFrame("Slider", "GudaPlatesDebuffSizeSlider", generalTab, "OptionsSliderTemplate")
-debuffSizeSlider:SetPoint("TOPLEFT", onlyMyDebuffsCheckbox, "BOTTOMLEFT", 0, -35)
+debuffSizeSlider:SetPoint("TOPLEFT", hideFriendlyCheckbox, "BOTTOMLEFT", 0, -35)
 debuffSizeSlider:SetWidth(580)
 debuffSizeSlider:SetMinMaxValues(8, 32)
 debuffSizeSlider:SetValueStep(1)
@@ -1725,6 +1766,8 @@ optionsFrame:SetScript("OnShow", function()
     getglobal("GudaPlatesSwapCheckbox"):SetChecked(Settings.swapNameDebuff)
     getglobal("GudaPlatesDebuffTimerCheckbox"):SetChecked(Settings.showDebuffTimers)
     getglobal("GudaPlatesShowCrittersCheckbox"):SetChecked(Settings.showCritterNameplates)
+    getglobal("GudaPlatesHideFriendlyCheckbox"):SetChecked(Settings.hideFriendlyNameplates)
+    getglobal("GudaPlatesHideNeutralCheckbox"):SetChecked(Settings.hideNeutralNameplates)
     getglobal("GudaPlatesOnlyMyDebuffsCheckbox"):SetChecked(Settings.showOnlyMyDebuffs)
     getglobal("GudaPlatesDebuffSizeSlider"):SetValue(Settings.debuffIconSize)
     getglobal("GudaPlatesDebuffSizeSliderText"):SetText(L["Debuff Icon Size: "] .. Settings.debuffIconSize .. " px")
@@ -1815,13 +1858,13 @@ resetButton:SetPoint("BOTTOM", optionsFrame, "BOTTOM", 0, 15)
 resetButton:SetText(L["Reset Defaults"])
 resetButton:SetScript("OnClick", function()
     GudaPlates.playerRole = "DPS"
-    THREAT_COLORS.DPS.AGGRO = {0.41, 0.35, 0.76, 1}
+    THREAT_COLORS.DPS.AGGRO = {1.0, 0.0, 0.06, 1}
     THREAT_COLORS.DPS.HIGH_THREAT = {1.0, 0.6, 0.0, 1}
-    THREAT_COLORS.DPS.NO_AGGRO = {0.85, 0.2, 0.2, 1}
-    THREAT_COLORS.TANK.AGGRO = {0.41, 0.35, 0.76, 1}
+    THREAT_COLORS.DPS.NO_AGGRO = {0.0, 1.0, 0.02, 1}
+    THREAT_COLORS.TANK.AGGRO = {0.0, 1.0, 0.13, 1}
     THREAT_COLORS.TANK.OTHER_TANK = {0.6, 0.8, 1.0, 1}
     THREAT_COLORS.TANK.LOSING_AGGRO = {1.0, 0.6, 0.0, 1}
-    THREAT_COLORS.TANK.NO_AGGRO = {0.85, 0.2, 0.2, 1}
+    THREAT_COLORS.TANK.NO_AGGRO = {1.0, 0.0, 0.04, 1}
     THREAT_COLORS.TAPPED = {0.5, 0.5, 0.5, 1}
     THREAT_COLORS.STUN = {0.376, 0.027, 0.431, 1}
     THREAT_COLORS.MANA_BAR = {0.07, 0.58, 1.0, 1}

@@ -71,6 +71,8 @@ GudaPlates.Settings = {
     hideOptionsBorder = false,
     -- Filtering
     showCritterNameplates = false,  -- Hide critter/ambient mob nameplates by default
+    hideFriendlyNameplates = true,  -- Hide friendly plates entirely (use client floating names instead)
+    hideNeutralNameplates = true,   -- Hide neutral plates unless targeted or in combat
     -- PvP Enemy Players
     pvpEnemyAsFriendly = false,  -- Show PvP-tagged enemy players using friendly nameplate style
     pvpEnemyNoClassColors = false,  -- Disable class colors for PvP-tagged enemy players
@@ -165,15 +167,15 @@ GudaPlates.Critters = {
 GudaPlates.THREAT_COLORS = {
     -- DPS/Healer colors
     DPS = {
-        AGGRO = {0.41, 0.35, 0.76, 1},       -- Blue: mob attacking you (BAD)
+        AGGRO = {1.0, 0.0, 0.06, 1},       -- Red: mob attacking you (BAD)
         HIGH_THREAT = {1.0, 0.6, 0.0, 1},  -- Orange: high threat, about to pull (WARNING)
-        NO_AGGRO = {0.85, 0.2, 0.2, 1},  -- Red: tank has aggro (GOOD)
+        NO_AGGRO = {0.0, 1.0, 0.02, 1},  -- Green: tank has aggro (GOOD)
     },
     -- Tank colors
     TANK = {
-        AGGRO = {0.41, 0.35, 0.76, 1},       -- Blue (matching DPS AGGRO)
+        AGGRO = {0.0, 1.0, 0.13, 1},       -- Green: you have aggro (GOOD)
         LOSING_AGGRO = {1.0, 0.6, 0.0, 1}, -- Orange (matching DPS LOSING_AGGRO)
-        NO_AGGRO = {0.85, 0.2, 0.2, 1},  -- Red (matching DPS NO_AGGRO)
+        NO_AGGRO = {1.0, 0.0, 0.04, 1},  -- Red: mob not on you (BAD)
         OTHER_TANK = {0.6, 0.8, 1.0, 1},   -- Light Blue: another tank has it
     },
     -- Misc colors

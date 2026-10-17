@@ -34,6 +34,10 @@ L["Debuff Timers"] = "Debuff Timers"
 L["Show Critters"] = "Show Critters"
 L["Show nameplates for critters and ambient mobs (default: unchecked)"] = "Show nameplates for critters and ambient mobs (default: unchecked)"
 L["Debuff Icon Size: "] = "Debuff Icon Size: "
+L["Hide Friendly"] = "Hide Friendly"
+L["Hide Neutral"] = "Hide Neutral"
+L["Hide friendly nameplates. Turn on player/NPC names in Interface Options to keep names and guilds."] = "Hide friendly nameplates. Turn on player/NPC names in Interface Options to keep names and guilds."
+L["Hide neutral nameplates unless targeted or in combat."] = "Hide neutral nameplates unless targeted or in combat."
 
 -- General Tab - Combo Points
 L["Combo Points (Rogue/Druid)"] = "Combo Points (Rogue/Druid)"
