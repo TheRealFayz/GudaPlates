@@ -71,8 +71,8 @@ GudaPlates.Settings = {
     hideOptionsBorder = false,
     -- Filtering
     showCritterNameplates = false,  -- Hide critter/ambient mob nameplates by default
-    hideFriendlyNameplates = true,  -- Hide friendly plates entirely (use client floating names instead)
-    hideNeutralNameplates = true,   -- Hide neutral plates unless targeted or in combat
+    showNeutralNameplates = false,  -- Hide neutral plates (unless targeted or in combat) by default
+    showFriendlyNameplates = false, -- Hide friendly plates by default (use client floating names instead)
     -- PvP Enemy Players
     pvpEnemyAsFriendly = false,  -- Show PvP-tagged enemy players using friendly nameplate style
     pvpEnemyNoClassColors = false,  -- Disable class colors for PvP-tagged enemy players

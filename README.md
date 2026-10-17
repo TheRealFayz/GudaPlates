@@ -11,18 +11,18 @@ A customizable nameplate addon for World of Warcraft 1.12.1 (Vanilla) and Turtle
 - **Health & Level Display** - Clean health bars with level and classification icons
 - **Raid Icons** - Shows raid target icons on nameplates
 - **Target Highlight** - Highlights your current target's nameplate
-- **Hide Friendly Nameplates** - Hides friendly nameplates and makes them unclickable (on by default)
-- **Hide Neutral Nameplates** - Hides neutral nameplates until they become your target or enter combat (on by default)
+- **Show Neutral Nameplates** - Off by default: neutral nameplates stay hidden until they become your target or enter combat
+- **Show Friendly Nameplates** - Off by default: friendly nameplates are hidden and unclickable
 
 ## Friendly and Neutral Nameplates
 
-Both options are on the General tab of `/gp config`, in the third row under Nameplate Settings. Uncheck either one to get the normal behavior back.
+Both options are on the General tab of `/gp config`, in the third row under Nameplate Settings. They start unchecked. Check either one to show those nameplates normally.
 
 GudaPlates turns off pfUI's and ShaguTweaks' nameplate modules while it's loaded, so their hide settings won't apply. Use these options instead.
 
-**Hide Friendly** removes the whole nameplate, health bar included. To still see names and guild tags over friendly players and NPCs, turn on the player name, guild name, and NPC name options in the game's Interface Options.
+With **Show Friendly** unchecked, the whole friendly nameplate is hidden, health bar included. To still see names and guild tags over friendly players and NPCs, turn on the player name, guild name, and NPC name options in the game's Interface Options.
 
-**Hide Neutral** keeps neutral mobs out of the way until they matter. A neutral nameplate shows up again as soon as you target it or it enters combat, so a mob you pull never vanishes. With SuperWoW this check is exact. Without it, GudaPlates uses the aggro glow to tell when a neutral mob is in combat.
+With **Show Neutral** unchecked, neutral mobs stay out of the way until they matter. A neutral nameplate shows up again as soon as you target it or it enters combat, so a mob you pull never vanishes. With SuperWoW this check is exact. Without it, GudaPlates uses the aggro glow to tell when a neutral mob is in combat.
 
 ## Threat Colors
 

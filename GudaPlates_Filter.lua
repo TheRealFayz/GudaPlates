@@ -100,14 +100,14 @@ end
 -- =============================================================================
 
 -- Returns true if this plate should be hidden based on unit reaction.
---   Friendly: always hidden when hideFriendlyNameplates is on. Names and
+--   Friendly: always hidden when showFriendlyNameplates is off. Names and
 --             guilds come from the client's floating unit names instead.
---   Neutral:  hidden when hideNeutralNameplates is on, unless it's your
+--   Neutral:  hidden when showNeutralNameplates is off, unless it's your
 --             target or it's in combat (so a pulled mob never vanishes).
 --   Hostile:  never hidden here.
 function GudaPlates_Filter.ShouldHideByReaction(frame, nameplate, original, Settings)
     if not Settings then return false end
-    if not Settings.hideFriendlyNameplates and not Settings.hideNeutralNameplates then
+    if Settings.showFriendlyNameplates and Settings.showNeutralNameplates then
         return false
     end
     if not original or not original.healthbar then return false end
@@ -119,11 +119,11 @@ function GudaPlates_Filter.ShouldHideByReaction(frame, nameplate, original, Sett
 
     if not isNeutral then
         -- Friendly
-        return Settings.hideFriendlyNameplates and true or false
+        return not Settings.showFriendlyNameplates
     end
 
     -- Neutral
-    if not Settings.hideNeutralNameplates then return false end
+    if Settings.showNeutralNameplates then return false end
 
     -- SuperWoW: exact per-unit checks
     local unitstr = nil

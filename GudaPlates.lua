@@ -63,7 +63,7 @@ if not GudaPlates.Settings then
         useLevelDiffColors = true,
         optionsBgAlpha = 0.9, hideOptionsBorder = false,
         showCritterNameplates = false,
-        hideFriendlyNameplates = true, hideNeutralNameplates = true,
+        showNeutralNameplates = false, showFriendlyNameplates = false,
     }
 end
 if not GudaPlates.Critters then GudaPlates.Critters = {} end
